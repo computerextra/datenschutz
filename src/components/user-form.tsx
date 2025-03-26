@@ -1,6 +1,7 @@
 import { setInitialData } from "@/hooks/useUserData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { z } from "zod";
 import { Button } from "./ui/button";
 import {
@@ -44,14 +45,15 @@ const formSchema = z.object({
   Standort: z.string(),
 });
 
-export default function UserForm() {
+function UserForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setInitialData(values.Name, values.Email, values.Firma, values.Standort);
     // TODO: Save the data to the server
+
+    setInitialData(values.Name, values.Email, values.Firma, values.Standort);
     location.reload();
   }
 
@@ -149,3 +151,68 @@ export default function UserForm() {
     </div>
   );
 }
+
+const loginFormSchema = z.object({
+  Email: z.string().email({
+    message: "Es muss eine gültige E-Mail-Adresse eingegeben werden.",
+  }),
+});
+
+function Login() {
+  const form = useForm<z.infer<typeof loginFormSchema>>({
+    resolver: zodResolver(loginFormSchema),
+  });
+
+  function onSubmit(values: z.infer<typeof loginFormSchema>) {
+    // TODO: Get data from the server
+
+    // TODO: Check if user exists
+    // If not, show a toast message
+    toast("Benutzer nicht gefunden", {
+      action: {
+        label: "Registrieren",
+        onClick: () => {
+          location.reload();
+        },
+      },
+    });
+    // Else set the user data
+    setInitialData(
+      "Max Mustermann",
+      values.Email,
+      "Computer Extra GmbH",
+      "Kassel"
+    );
+
+    // location.reload();
+  }
+
+  return (
+    <div className="container mx-auto mt-24">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="Email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Deine Geschäftliche Mail Adresse</FormLabel>
+                <FormControl>
+                  <Input
+                    type="email"
+                    placeholder="dein.name@deine-firme.de"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Anmelden</Button>
+        </form>
+      </Form>
+    </div>
+  );
+}
+
+export { Login, UserForm };

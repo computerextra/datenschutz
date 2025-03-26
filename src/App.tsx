@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Button } from "./components/ui/button";
-import UserForm from "./components/user-form";
+import { Toaster } from "./components/ui/sonner";
+import { Login, UserForm } from "./components/user-form";
 import { useUserData } from "./hooks/useUserData";
 
 function App() {
   const userData = useUserData();
+  const [showForm, setShowForm] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
 
   const deleteUserData = () => {
     localStorage.removeItem("userdata");
@@ -32,7 +36,18 @@ function App() {
         Der Firmen <br />
         Computer Extra GmbH & AEM Communication GmbH & Co. KG
       </h2>
-      {!userData && <UserForm />}
+      {!userData && showForm && <UserForm />}
+      {!userData && showLogin && <Login />}
+      {!userData && !showForm && !showLogin && (
+        <div className="flex justify-center gap-8 mt-5">
+          <Button variant="default" onClick={() => setShowLogin(true)}>
+            Anmelden
+          </Button>
+          <Button variant="secondary" onClick={() => setShowForm(true)}>
+            Neu hier
+          </Button>
+        </div>
+      )}
       {userData && (
         <>
           <p>
@@ -41,6 +56,7 @@ function App() {
           </p>
         </>
       )}
+      <Toaster />
     </div>
   );
 }
