@@ -52,6 +52,8 @@ function main() {
   text += 'if (!SMTP_USER) { die("SMTP_USER is not set"); }\n';
   text += 'if (!SMTP_PASS) { die("SMTP_PASS is not set"); }\n';
   text += 'if (!SMTP_FROM) { die("SMTP_FROM is not set"); }\n';
+  text +=
+    "$con = new mysqli(MYSQL_SERVER, MYSQL_USER, MYSQL_PASS, MYSQL_DB);\n";
 
   writeFile(configFile, text, (err) => {
     if (err) throw err;
