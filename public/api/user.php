@@ -89,7 +89,7 @@ switch ($method) {
 function get_user(string $mail)
 {
     global $con;
-    $stmt = $con->prepare("SELECT * FROM user WHERE mail = ?");
+    $stmt = $con->prepare("SELECT * FROM users WHERE mail = ?");
     $stmt->bind_param("s", $mail);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -100,7 +100,7 @@ function get_user(string $mail)
 function update_user(string $name, string $mail, string $firma, string $standort)
 {
     global $con;
-    $stmt = $con->prepare("UPDATE user SET name = ?, firma = ?, standort = ? WHERE mail = ?");
+    $stmt = $con->prepare("UPDATE users SET name = ?, firma = ?, standort = ? WHERE mail = ?");
     $stmt->bind_param("ssss", $name, $firma, $standort, $mail);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -111,7 +111,7 @@ function update_user(string $name, string $mail, string $firma, string $standort
 function create_user(string $name, string $mail, string $firma, string $standort)
 {
     global $con;
-    $stmt = $con->prepare("INSERT INTO user (name, firma, standort, mail) VALUES (?, ?, ?, ?)");
+    $stmt = $con->prepare("INSERT INTO users (name, firma, standort, mail) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssss", $name, $firma, $standort, $mail);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -122,7 +122,7 @@ function create_user(string $name, string $mail, string $firma, string $standort
 function delete_user(string $email)
 {
     global $con;
-    $stmt = $con->prepare("DELETE FROM user WHERE mail = ?");
+    $stmt = $con->prepare("DELETE FROM users WHERE mail = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
