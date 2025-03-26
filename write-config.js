@@ -52,12 +52,6 @@ function main() {
   text += 'if (!SMTP_USER) { die("SMTP_USER is not set"); }\n';
   text += 'if (!SMTP_PASS) { die("SMTP_PASS is not set"); }\n';
   text += 'if (!SMTP_FROM) { die("SMTP_FROM is not set"); }\n';
-  text +=
-    "$con = mysqli_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASS, MYSQL_DB);\n";
-  text += '$con->set_charset("utf8mb4");\n';
-  text += "if ($con->connect_error) {\n";
-  text += 'die("Connection failed: $con->connect_error");\n';
-  text += "}";
 
   writeFile(configFile, text, (err) => {
     if (err) throw err;
