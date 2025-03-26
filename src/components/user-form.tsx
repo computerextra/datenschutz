@@ -1,3 +1,4 @@
+import { setInitialData } from "@/hooks/useUserData";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -49,7 +50,9 @@ export default function UserForm() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    setInitialData(values.Name, values.Email, values.Firma, values.Standort);
+    // TODO: Save the data to the server
+    location.reload();
   }
 
   return (
@@ -98,7 +101,7 @@ export default function UserForm() {
                 >
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Bitte wähle deine Firmma" />
+                      <SelectValue placeholder="Bitte wähle deine Firma" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -140,7 +143,7 @@ export default function UserForm() {
               </FormItem>
             )}
           />
-          <Button type="submit">Absenden</Button>
+          <Button type="submit">Beginnen</Button>
         </form>
       </Form>
     </div>
