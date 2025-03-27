@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./ui/select";
+import { createUser } from "@/api/user";
 
 const Firmen = ["Computer Extra GmbH", "AEM Communication GmbH & Co. KG"];
 const Standorte = [
@@ -50,10 +51,15 @@ function UserForm() {
     resolver: zodResolver(formSchema),
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // TODO: Save the data to the server
-
-    setInitialData(values.Name, values.Email, values.Firma, values.Standort);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { data } = await createUser(
+      values.Name,
+      values.Email,
+      values.Firma,
+      values.Standort,
+    );
+    if (data == null) return;
+    setInitialData(data.Name, data.Email, data.Firma, data.Standort);
     location.reload();
   }
 
@@ -181,7 +187,7 @@ function Login() {
       "Max Mustermann",
       values.Email,
       "Computer Extra GmbH",
-      "Kassel"
+      "Kassel",
     );
 
     // location.reload();

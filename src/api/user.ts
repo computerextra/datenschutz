@@ -4,13 +4,13 @@ import { client } from "./config";
 import { QueryObserverResult, useQuery } from "@tanstack/react-query";
 
 const fetchUser = async (
-  mail: string
+  mail: string,
 ): Promise<AxiosResponse<UserData | undefined | null, unknown>> => {
   return await client.get(`/user.php?mail=${mail}`);
 };
 
 const useFetchUser = (
-  mail: string
+  mail: string,
 ): QueryObserverResult<UserData | undefined | null, unknown> => {
   return useQuery<UserData | undefined | null, unknown>({
     queryKey: ["user", mail],
@@ -25,7 +25,7 @@ const createUser = async (
   name: string,
   mail: string,
   firma: string,
-  standort: string
+  standort: string,
 ): Promise<AxiosResponse<UserData, unknown>> => {
   return await client.put("/user", {
     name,
@@ -35,26 +35,26 @@ const createUser = async (
   });
 };
 
-const useCreateUser = (
-  name: string,
-  mail: string,
-  firma: string,
-  standort: string
-): QueryObserverResult<UserData, unknown> => {
-  return useQuery<UserData, unknown>({
-    queryKey: ["user", mail],
-    queryFn: async () => {
-      const { data } = await createUser(name, mail, firma, standort);
-      return data;
-    },
-  });
-};
+// const useCreateUser = (
+//   name: string,
+//   mail: string,
+//   firma: string,
+//   standort: string,
+// ): QueryObserverResult<UserData, unknown> => {
+//   return useQuery<UserData, unknown>({
+//     queryKey: ["user", mail],
+//     queryFn: async () => {
+//       const { data } = await createUser(name, mail, firma, standort);
+//       return data;
+//     },
+//   });
+// };
 
 const updateUser = async (
   name: string,
   mail: string,
   firma: string,
-  standort: string
+  standort: string,
 ): Promise<AxiosResponse<UserData | undefined | null, unknown>> => {
   return await client.post("/user", {
     name,
@@ -68,7 +68,7 @@ const useUpdateUser = (
   name: string,
   mail: string,
   firma: string,
-  standort: string
+  standort: string,
 ): QueryObserverResult<UserData | undefined | null, unknown> => {
   return useQuery<UserData | undefined | null, unknown>({
     queryKey: ["user", mail],
@@ -80,7 +80,7 @@ const useUpdateUser = (
 };
 
 const deleteUser = async (
-  mail: string
+  mail: string,
 ): Promise<AxiosResponse<null, unknown>> => {
   return await client.delete(`/user`, {
     data: {
@@ -90,7 +90,7 @@ const deleteUser = async (
 };
 
 const useDeleteUser = (
-  mail: string
+  mail: string,
 ): QueryObserverResult<undefined | null, unknown> => {
   return useQuery<undefined | null, unknown>({
     queryKey: ["user", mail],
@@ -101,4 +101,4 @@ const useDeleteUser = (
   });
 };
 
-export { useFetchUser, useCreateUser, useUpdateUser, useDeleteUser };
+export { useFetchUser, createUser, useUpdateUser, useDeleteUser };
